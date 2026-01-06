@@ -1,1 +1,852 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фан-сайт футбольних клубів Поділля</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Стилі тільки для анімованого логотипу */
+        .logo-animation-container {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            cursor: pointer;
+            margin: 0 auto;
+        }
+        
+        .logo-animation-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform, opacity, filter;
+            background-image: url('assets/images/site-logo.png');
+        }
+        
+        @keyframes blueGlow {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(27, 79, 222, 0.5)) brightness(1);
+            }
+            50% {
+                filter: drop-shadow(0 0 25px rgba(27, 79, 222, 0.8)) 
+                       drop-shadow(0 0 40px rgba(66, 133, 244, 0.6))
+                       brightness(1.1);
+            }
+            100% {
+                filter: drop-shadow(0 0 5px rgba(27, 79, 222, 0.5)) brightness(1);
+            }
+        }
+        
+        .blue-glow {
+            animation: blueGlow 2s ease-in-out;
+        }
+        
+        /* Стилі для контейнера логотипу сайту */
+        .site-logo-container {
+            text-align: center;
+            padding: 2rem 0;
+            background: linear-gradient(rgba(58, 23, 122, 0.8), rgba(27, 79, 222, 0.8)), url('assets/images/logo-background.jpg') center/cover no-repeat;
+            position: relative;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .site-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo-text-container {
+            text-align: center;
+            background: #FFC107;
+            padding: 1.5rem 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(3px);
+            border: 1px solid rgba(58, 23, 122, 0.3);
+        }
+        
+        .logo-title {
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 3rem;
+            color: #3A177A;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .logo-subtitle {
+            color: #666;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
 
+        /* Секція стадіону */
+        .stadium-section {
+            margin-top: 3rem;
+            padding: 2rem 0;
+            background: linear-gradient(135deg, #FFC107 0%, #3A177A 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .stadium-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .stadium-title {
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #3A177A;
+        }
+
+        .stadium-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stadium-image {
+            width: 100%;
+            max-width: 900px;
+            height: 400px;
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border: 5px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stadium-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .stadium-image:hover img {
+            transform: scale(1.03);
+        }
+
+        .stadium-info {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 0 1rem;
+        }
+
+        .stadium-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stadium-card h4 {
+            color: #FFC107;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .stadium-card p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        /* Секція командного фото */
+        .team-photo-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #FFC107 0%, #3A177A 100%);
+        }
+
+        .team-photo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .team-photo-title {
+            text-align: center;
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 2.5rem;
+            color: #3A177A;
+            margin-bottom: 1rem;
+        }
+
+        .team-photo-subtitle {
+            text-align: center;
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .team-photo-wrapper {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .team-photo {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Загальні стилі для сторінки */
+        body {
+            color: #333;
+        }
+
+        .navbar {
+            background: #3A177A;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(58, 23, 122, 0.8), rgba(27, 79, 222, 0.8)), url('assets/images/hero-bg.jpg');
+            color: white;
+        }
+
+        .hero-title {
+            color: white;
+        }
+
+        .hero-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .hero-btn {
+            background: #FFC107;
+            color: #3A177A;
+        }
+
+        .hero-btn:hover {
+            background: #1B4FDE;
+            color: white;
+        }
+
+        .section-title {
+            color: #FFC107;
+        }
+
+        .section-subtitle {
+            color: #666;
+        }
+
+        .club-card {
+            background: white;
+            border: 2px solid #FFC107;
+        }
+
+        .club-card:hover {
+            border-color: #1B4FDE;
+            box-shadow: 0 10px 30px rgba(27, 79, 222, 0.2);
+        }
+
+        .club-card h3 {
+            color: #3A177A;
+        }
+
+        .club-card p {
+            color: #666;
+        }
+
+        .club-stats span {
+            color: #666;
+        }
+
+        .club-btn {
+            background: #1B4FDE;
+            color: white;
+        }
+
+        .club-btn:hover {
+            background: #3A177A;
+        }
+
+        .about-section {
+            background: #f8f9fa;
+        }
+
+        .about-section p {
+            color: #666;
+        }
+
+        .footer-container {
+            background: #3A177A;
+            color: white;
+        }
+
+        .footer-section h3 {
+            color: #FFC107;
+        }
+
+        .footer-section p, .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .social-icons a {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .social-icons a:hover {
+            background: #1B4FDE;
+        }
+
+        .footer-bottom {
+            background: #2A1260;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .nav-menu a {
+            color: white;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            color: #FFC107;
+        }
+
+        .hamburger .bar {
+            background: white;
+        }
+
+        @media (max-width: 768px) {
+            .stadium-image {
+                height: 300px;
+            }
+            
+            .stadium-title {
+                font-size: 2rem;
+            }
+            
+            .logo-title {
+                font-size: 2.5rem;
+            }
+            
+            .team-photo {
+                height: 300px;
+            }
+            
+            .team-photo-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="index.html" class="logo">Футбольне Поділля</a>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="active">Головна</a></li>
+                    <li><a href="podillya.html">Поділля (Хм)</a></li>
+                    <li><a href="nyva-vin.html">Нива (Вн)</a></li>
+                    <li><a href="nyva-tern.html">Нива (Тр)</a></li>
+                    <li><a href="epicenter.html">Епіцентр</a></li>
+                    <li><a href="temp-shepetivka.html">Темп (Шп)</a></li>
+                    <li><a href="dynamo-khmelnytskyi.html">Динамо (Хм)</a></li>
+                    <li><a href="agrobusiness.html">Агробізнес</a></li>
+                    <li><a href="volia-locomotyv-vinnytsia.html">Воля-Лок. (Вн)</a></li>
+                    <li><a href="fk-ternopil.html">Тернопіль</a></li>
+                    <li><a href="fk-kalynivka.html">Калинівка</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Анімований логотип сайту -->
+    <div class="site-logo-container">
+        <div class="site-logo">
+            <div class="logo-animation-container" id="logoAnimation">
+                <!-- Шари логотипу з'являться тут -->
+            </div>
+            <div class="logo-text-container">
+                <h1 class="logo-title">Поділля</h1>
+                <p class="logo-subtitle">Футбольний фан-сайт</p>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Футбольні клуби Поділля</h1>
+                <p class="hero-subtitle">Вболівай разом з нами за найкращі команди історичного регіону України</p>
+                <a href="#clubs" class="hero-btn">Дізнатися більше</a>
+            </div>
+            <div class="hero-overlay"></div>
+        </section>
+
+        <section id="clubs" class="clubs-section">
+            <h2 class="section-title">Клуби Поділля</h2>
+            <p class="section-subtitle">10 команд історичного регіону. Обери свою команду!</p>
+            
+            <div class="clubs-grid">
+                <!-- Початкові 4 клуби -->
+                <div class="club-card" data-club="podillya">
+                    <div class="club-image">
+                        <img src="assets/images/podillya-logo.png" alt="Поділля Хмельницький" class="club-logo">
+                        <div class="club-overlay">
+                            <a href="podillya.html" class="club-btn">Детальніше</a>
+                        </div>
+                    </div>
+                    <div class="club-info">
+                        <h3>ФК «Поділля» Хмельницький</h3>
+                        <p>Заснований у 1950 році. Виступає у Другій лізі України. Домашній стадіон - "Поділля".</p>
+                        <div class="club-stats">
+                            <span><i class="fas fa-trophy"></i> 1 місце в Другій лізі (2020)</span>
+                            <span><i class="fas fa-futbol"></i> Найкращий бомбардир: Олег Гуменюк</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="club-card" data-club="nyva-vin">
+                    <div class="club-image">
+                        <img src="assets/images/nyva-vin-logo.png" alt="Нива Вінниця" class="club-logo">
+                        <div class="club-overlay">
+                            <a href="nyva-vin.html" class="club-btn">Детальніше</a>
+                        </div>
+                    </div>
+                    <div class="club-info">
+                        <h3>ФК «Нива» Вінниця</h3>
+                        <p>Заснований у 1958 році. Виступає у Першій лізі України. Домашній стадіон - Центральний міський.</p>
+                        <div class="club-stats">
+                            <span><i class="fas fa-trophy"></i> 9-е місце в Вищій лізі (1995)</span>
+                            <span><i class="fas fa-futbol"></i> Найкращий бомбардир: Сергій Чуйченко</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="club-card" data-club="nyva-tern">
+                    <div class="club-image">
+                        <img src="assets/images/nyva-tern-logo.png" alt="Нива Тернопіль" class="club-logo">
+                        <div class="club-overlay">
+                            <a href="nyva-tern.html" class="club-btn">Детальніше</a>
+                        </div>
+                    </div>
+                    <div class="club-info">
+                        <h3>ФК «Нива» Тернопіль</h3>
+                        <p>Заснований у 1978 році. Виступає у Першій лізі України. Домашній стадіон - Міський.</p>
+                        <div class="club-stats">
+                            <span><i class="fas fa-trophy"></i> 9-е місце в Вищій лізі (1998)</span>
+                            <span><i class="fas fa-futbol"></i> Найкращий бомбардир: Василь Сачко</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="club-card" data-club="epicenter">
+                    <div class="club-image">
+                        <img src="assets/images/epicenter-logo.png" alt="Епіцентр" class="club-logo">
+                        <div class="club-overlay">
+                            <a href="epicenter.html" class="club-btn">Детальніше</a>
+                        </div>
+                    </div>
+                    <div class="club-info">
+                        <h3>ФК «Епіцентр»</h3>
+                        <p>Заснований у 2018 році. Виступає у Другій лізі України. Домашній стадіон - "Поділля" (Хмельницький).</p>
+                        <div class="club-stats">
+                            <span><i class="fas fa-trophy"></i> 2 місце в Другій лізі (2021)</span>
+                            <span><i class="fas fa-futbol"></i> Найкращий бомбардир: Олексій Ковтун</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ДОДАНО 6 НОВИХ КЛУБІВ -->
+                <div class="club-card" data-club="temp-shepetivka">
+                    <div class="club-image">
+                        <img src="assets/images/temp-shepetivka-logo.png" alt="Темп Шепетівка" class="club-logo">
+                        <div class="club-overlay">
+                            <a href="temp-shepetivka.html" class="club-btn">Детальніше</a>
+                        </div>
+                    </div>
+                    <div class="club-info">
+                        <h3>ФК «Темп» Шепетівка</h3>
+                        <p>Заснований у 1937 році. Історичний клуб з Хмельницької області.</p>
+                        <div class="club-stats">
+                            <span><i class="fas fa-trophy"></i> Чемпіон УРСР серед КФК (1986)</span>
+                            <span><i class="fas fa-futbol"></i> Найвідоміший гравець: Валерій Яремченко</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="club-card" data-club="dynamo-khmelnytskyi">
+                    <div class="club-image">
+                        <img src="assets/images/dynamo-khmelnytskyi-logo.png" alt="Динамо Хмельницький" class="club-logo">
+                        <div class="club-overlay">
+                            <a href="dynamo-khmelnytskyi.html" class="club-btn">Детальніше</a>
+                        </div>
+                    </div>
+                    <div class="club-info">
+                        <h3>«Динамо» Хмельницький</h3>
+                        <p>Заснований у 1923 році. Один з найстаріших клубів Поділля.</p>
+                        <div class="club-stats">
+                            <span><i class="fas fa-trophy"></i> Чемпіон УРСР (1938)</span>
+                            <span><i class="fas fa-futbol"></i> Легенда: Йосип Ліфшиць</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="club-card" data-club="agrobusiness">
+                    <div class="club-image">
+                        <img src="assets/images/agrobusiness-logo.png" alt="Агробізнес" class="club-logo">
+                        <div class="club-overlay">
+                            <a href="agrobusiness.html" class="club-btn">Детальніше</a>
+                        </div>
+                    </div>
+                    <div class="club-info">
+                        <h3>ФК «Агробізнес»</h3>
+                        <p>Заснований у 2010 році. Команда з Волочиська, Хмельницька область.</p>
+                        <div class="club-stats">
+                            <span><i class="fas fa-trophy"></i> Чемпіон Другої ліги (2020)</span>
+                            <span><i class="fas fa-futbol"></i> Капітан: Сергій Мізюк</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="club-card" data-club="volia-locomotyv-vinnytsia">
+                    <div class="club-image">
+                        <img src="assets/images/volia-locomotyv-vinnytsia-logo.png" alt="Воля-Локомотив Вінниця" class="club-logo">
+                        <div class="club-overlay">
+                            <a href="volia-locomotyv-vinnytsia.html" class="club-btn">Детальніше</a>
+                        </div>
+                    </div>
+                    <div class="club-info">
+                        <h3>«Воля-Локомотив» Вінниця</h3>
+                        <p>Заснований у 2019 році. Сучасний вінницький футбольний проект.</p>
+                        <div class="club-stats">
+                            <span><i class="fas fa-trophy"></i> Участь в аматорському чемпіонаті</span>
+                            <span><i class="fas fa-futbol"></i> Тренер: Олександр Горяїнов</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="club-card" data-club="fk-ternopil">
+                    <div class="club-image">
+                        <img src="assets/images/fk-ternopil-logo.png" alt="ФК Тернопіль" class="club-logo">
+                        <div class="club-overlay">
+                            <a href="fk-ternopil.html" class="club-btn">Детальніше</a>
+                        </div>
+                    </div>
+                    <div class="club-info">
+                        <h3>ФК «Тернопіль»</h3>
+                        <p>Заснований у 2015 році. Спадкоємець футбольних традицій Тернополя.</p>
+                        <div class="club-stats">
+                            <span><i class="fas fa-trophy"></i> Чемпіон аматорів (2017)</span>
+                            <span><i class="fas fa-futbol"></i> Найкращий бомбардир: Юрій Клименко</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="club-card" data-club="fk-kalynivka">
+                    <div class="club-image">
+                        <img src="assets/images/fk-kalynivka-logo.png" alt="ФК Калинівка" class="club-logo">
+                        <div class="club-overlay">
+                            <a href="fk-kalynivka.html" class="club-btn">Детальніше</a>
+                        </div>
+                    </div>
+                    <div class="club-info">
+                        <h3>ФК «Калинівка»</h3>
+                        <p>Заснований у 1965 році. Клуб з Вінницької області.</p>
+                        <div class="club-stats">
+                            <span><i class="fas fa-trophy"></i> Переможець обласних чемпіонатів</span>
+                            <span><i class="fas fa-futbol"></i> Вихованець: Андрій Вороний</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Додано секцію статистики -->
+        <section class="stats-section">
+            <div class="container">
+                <h2 class="section-title">Статистика клубів Поділля</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">10</div>
+                        <div class="stat-label">Клубів у базі</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Професійних ліг</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">95+</div>
+                        <div class="stat-label">Років історії</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">50,000+</div>
+                        <div class="stat-label">Місць на стадіонах</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section">
+            <div class="about-container">
+                <div class="about-content">
+                    <h2 class="section-title">Про фан-сайт</h2>
+                    <p>Ми - об'єднання вболівальників футбольних клубів історичного регіону Поділля. Наш сайт створений для того, щоб об'єднати фанатів команд з Хмельницького, Вінниці, Тернополя та інших міст Поділля.</p>
+                    <p>Тут ви знайдете останні новини, результати матчів, історію клубів, фотогалерею та багато іншого цікавого контенту про ваші улюблені команди.</p>
+                    <p>Приєднуйтесь до нашої спільноти і разом підтримуймо наші команди на шляху до перемог!</p>
+                </div>
+                <div class="about-image">
+                    <img src="assets/images/fans.jpg" alt="Вболівальники Поділля">
+                </div>
+            </div>
+        </section>
+
+        <!-- Секція стадіону -->
+        <section class="stadium-section">
+            <div class="stadium-container">
+                <h2 class="stadium-title">Легендарні стадіони Поділля</h2>
+                <p class="stadium-subtitle">Місця, де народжуються перемоги та легенди футболу нашого регіону</p>
+                
+                <div class="stadium-image">
+                    <img src="assets/images/stadium.jpg" alt="Стадіон Поділля в Хмельницькому">
+                </div>
+                
+                <div class="stadium-info">
+                    <div class="stadium-card">
+                        <h4><i class="fas fa-map-marker-alt"></i> Стадіон "Поділля"</h4>
+                        <p>Хмельницький. Місткість: 6,800 глядачів. Домашня арена ФК "Поділля" та ФК "Епіцентр".</p>
+                    </div>
+                    
+                    <div class="stadium-card">
+                        <h4><i class="fas fa-map-marker-alt"></i> Центральний міський стадіон</h4>
+                        <p>Вінниця. Місткість: 24,000 глядачів. Домашня арена ФК "Нива" (Вінниця).</p>
+                    </div>
+                    
+                    <div class="stadium-card">
+                        <h4><i class="fas fa-map-marker-alt"></i> Міський стадіон</h4>
+                        <p>Тернопіль. Місткість: 15,150 глядачів. Домашня арена ФК "Нива" (Тернопіль).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секція командного фото -->
+        <section class="team-photo-section">
+            <div class="team-photo-container">
+                <h2 class="team-photo-title">Команда Поділля</h2>
+                <p class="team-photo-subtitle">Основна команда ФК "Поділля" Хмельницький сезону 2024/2025</p>
+                
+                <div class="team-photo-wrapper">
+                    <img src="assets/images/team-photo.jpg" alt="Фото команди Поділля" class="team-photo">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Футбольне Поділля</h3>
+                <p>Фан-сайт футбольних клубів історичного регіону Поділля. Об'єднуємо вболівальників з 2023 року.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Контакти</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Україна, Поділля</p>
+                <p><i class="fas fa-envelope"></i> info@podillya-fans.com</p>
+                <p><i class="fas fa-phone"></i> +380 (XX) XXX-XX-XX</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Швидкі посилання</h3>
+                <ul>
+                    <li><a href="index.html">Головна</a></li>
+                    <li><a href="podillya.html">Поділля (Хм)</a></li>
+                    <li><a href="nyva-vin.html">Нива (Вн)</a></li>
+                    <li><a href="nyva-tern.html">Нива (Тр)</a></li>
+                    <li><a href="epicenter.html">Епіцентр</a></li>
+                    <li><a href="temp-shepetivka.html">Темп (Шп)</a></li>
+                    <li><a href="dynamo-khmelnytskyi.html">Динамо (Хм)</a></li>
+                    <li><a href="agrobusiness.html">Агробізнес</a></li>
+                    <li><a href="volia-locomotyv-vinnytsia.html">Воля-Лок. (Вн)</a></li>
+                    <li><a href="fk-ternopil.html">Тернопіль</a></li>
+                    <li><a href="fk-kalynivka.html">Калинівка</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Фан-сайт футбольних клубів Поділля. Всі права захищені.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Анімація логотипу
+        let layers = [];
+        let isAnimating = false;
+        
+        // Створення шарів логотипу
+        function createLayers() {
+            const container = document.getElementById('logoAnimation');
+            container.innerHTML = '';
+            layers = [];
+            
+            // Створюємо 8 шарів для плавної анімації
+            for (let i = 0; i < 8; i++) {
+                const layer = document.createElement('div');
+                layer.className = 'logo-animation-layer';
+                
+                // Початкові позиції - хаотичні
+                const startX = (Math.random() - 0.5) * 100;
+                const startY = (Math.random() - 0.5) * 100;
+                const startScale = 0.3 + Math.random() * 0.2;
+                const startRotation = (Math.random() - 0.5) * 30;
+                
+                layer.style.transform = `
+                    translate(${startX}px, ${startY}px)
+                    scale(${startScale})
+                    rotate(${startRotation}deg)
+                `;
+                layer.style.opacity = '0.1';
+                layer.style.filter = `blur(${2 + Math.random() * 3}px) brightness(${0.8 + i * 0.03})`;
+                
+                container.appendChild(layer);
+                layers.push(layer);
+            }
+        }
+        
+        // Запуск анімації
+        function startLogoAnimation() {
+            if (isAnimating) return;
+            
+            isAnimating = true;
+            
+            // Швидка анімація збирання
+            setTimeout(() => {
+                // Частина 1
+                layers[0].style.opacity = '1';
+                layers[0].style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
+                layers[0].style.filter = 'blur(0px) brightness(1)';
+                
+                // Частина 2
+                setTimeout(() => {
+                    layers[1].style.opacity = '1';
+                    layers[1].style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
+                    layers[1].style.filter = 'blur(0px) brightness(1)';
+                    
+                    // Частина 3
+                    setTimeout(() => {
+                        layers[2].style.opacity = '1';
+                        layers[2].style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
+                        layers[2].style.filter = 'blur(0px) brightness(1)';
+                        
+                        // Решта частин одночасно
+                        setTimeout(() => {
+                            for (let i = 3; i < layers.length; i++) {
+                                layers[i].style.opacity = '1';
+                                layers[i].style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
+                                layers[i].style.filter = 'blur(0px) brightness(1)';
+                            }
+                            
+                            // Синьо-фіолетова підсвітка
+                            setTimeout(() => {
+                                applyBlueGlow();
+                                isAnimating = false;
+                            }, 200);
+                            
+                        }, 100);
+                        
+                    }, 80);
+                    
+                }, 60);
+                
+            }, 50);
+        }
+        
+        // Синьо-фіолетова підсвітка
+        function applyBlueGlow() {
+            layers.forEach((layer, index) => {
+                setTimeout(() => {
+                    layer.classList.add('blue-glow');
+                    
+                    setTimeout(() => {
+                        layer.classList.remove('blue-glow');
+                    }, 2000);
+                }, index * 50);
+            });
+        }
+        
+        // Клік на логотип для повтору анімації
+        document.getElementById('logoAnimation').addEventListener('click', () => {
+            if (!isAnimating) {
+                createLayers();
+                startLogoAnimation();
+            }
+        });
+        
+        // Автоматичний запуск при завантаженні
+        window.addEventListener('load', () => {
+            // Створюємо шари
+            createLayers();
+            
+            // Запускаємо анімацію через невелику затримку
+            setTimeout(() => {
+                startLogoAnimation();
+            }, 500);
+        });
+        
+        // Мобільне меню (залишив оригінальний код)
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+            
+            document.querySelectorAll('.nav-menu a').forEach(n => n.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }));
+        }
+    </script>
+     
+</body>
+</html>
